@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:exampleapp/blocprovs/example-bloc-prov.dart';
-import 'package:exampleapp/blocs/example-bloc.dart';
-import 'package:exampleapp/theme/style.dart';
-import 'package:exampleapp/screens/example1/examplescreen1.dart';
-import 'package:exampleapp/screens/example2/examplescreen2.dart';
+import 'package:example/theme/style.dart';
+import 'package:example/routes.dart';
+import 'package:example/bloc/bloc-prov-tree.dart';
+import 'package:example/bloc/bloc-prov.dart';
+import 'package:example/blocs/blocs.dart';
+import 'blocs/blocs.dart';
 
 void main() {
   runApp(ExampleApp());
@@ -12,16 +12,16 @@ void main() {
 class ExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ExampleProvider(
-      bloc: ExampleBloc(),
+    return BlocProviderTree(
+      blocProviders: <BlocProvider>[
+        BlocProvider<AuthBloc>(bloc: AuthBloc()),
+        BlocProvider<PrefBloc>(bloc: PrefBloc()),
+      ],
       child: MaterialApp(
         title: 'ExampleApp',
         theme: appTheme(),
         initialRoute: '/',
-        routes: <String, WidgetBuilder>{
-          "/": (BuildContext context) => ExScreen1(),
-          "/ExScreen2": (BuildContext context) => ExScreen2(),
-        },
+        routes: routes,
       ),
     );
   }
